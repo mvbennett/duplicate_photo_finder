@@ -1,1 +1,4 @@
 test_images
+build
+dist
+setup.py

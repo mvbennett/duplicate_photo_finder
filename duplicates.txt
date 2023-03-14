@@ -1,2 +1,2 @@
-./images/DSC03749.JPG  -->  ./images/oops/DSC03749.JPG
-./images/DSC03748.JPG  -->  ./images/oops/DSC03748.JPG
+./test_images/DSC03749.JPG  -->  ./test_images/oops/DSC03749.JPG
+./test_images/DSC03748.JPG  -->  ./test_images/oops/DSC03748.JPG
