@@ -9,8 +9,6 @@ def main(path):
     arw = re.compile(r"\.arw$", re.IGNORECASE)
     files = []
     duplicates = []
-    # print(results)
-    # test_file = results[0]
 
     def get_files(results):
         for file in results:
@@ -18,16 +16,18 @@ def main(path):
                 results = os.scandir(file.path)
                 get_files(results)
             elif ({'name': file.name, 'size': file.stat().st_size} in files):
-                print(f"{file.name} is a duplicate!")
+                # print(f"{file.name} is a duplicate!")
                 duplicates.append(file.path)
             elif file.is_file() and (jpg.search(file.name) or dng.search(file.name) or arw.search(file.name)):
                 files.append({'name': file.name, 'size': file.stat().st_size})
 
     get_files(results)
 
-    # print(files)
+    result_file = open('./duplicates.txt', 'w+')
+    for file in duplicates:
+        result_file.write(f"{file}\n")
 
-    print(duplicates)
+    # print(duplicates)
 
 if __name__ == "__main__":
     main(str(sys.argv[1]))
