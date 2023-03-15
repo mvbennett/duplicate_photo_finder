@@ -30,10 +30,10 @@ def main(path, skip_dirs = []):
     duplicates = []
 
     def get_files(results):
+        directories = []
         for file in results:
             if file.is_dir() and isnt_dirs(file.name, skip_dirs):
-                results = os.scandir(file.path)
-                get_files(results)
+                directories.append(file.path)
             elif ({'name': file.name, 'size': file.stat().st_size} in files.values()):
                 original_path = list(files.keys())[list(files.values()).index({'name': file.name, 'size': file.stat().st_size})]
                 print(f"duplicate found: {original_path} --> {file.path}")
@@ -41,12 +41,15 @@ def main(path, skip_dirs = []):
             elif file.is_file() and check_ext(file.name):
                 files[file.path] = {'name': file.name, 'size': file.stat().st_size}
 
+        for dir_path in directories:
+            results = os.scandir(dir_path)
+            get_files(results)
+
     get_files(results)
 
     result_file = open('./duplicates.txt', 'w+')
     for original, duplicate in duplicates:
         result_file.write(f"{original}  -->  {duplicate}\n")
-        # print(f"{original}  -->  {duplicate}")
 
     result_file.close()
 
@@ -57,5 +60,4 @@ if __name__ == "__main__":
     elif len(sys.argv) == 2:
         main(sys.argv[1])
     else:
-        print(sys.argv[1:2])
         main('.')
